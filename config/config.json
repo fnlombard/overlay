@@ -1,0 +1,26 @@
+{
+   "server_port": 5173,
+   "task_list_title": "Learning Godot",
+   "task_list_items": [
+      {
+         "task": "Introduction",
+         "time": 5
+      },
+      {
+         "task": "Warmup with Vue3",
+         "time": 15
+      },
+      {
+         "task": "Light must illuminate dark and show colour.",
+         "time": 30
+      },
+      {
+         "task": "Figure out field of view.",
+         "time": 30
+      },
+      {
+         "task": "Age of Empires",
+         "time": 30
+      }
+   ]
+}

@@ -1,23 +1,26 @@
-<script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+<script setup lang="ts">
+import { computed, onUnmounted, ComputedRef, ref } from 'vue';
 
-const elapsed_time = ref(0);
-const timeLeft = ref(0);
-const taskTime = ref(15);
-const step = ref(1);
+const props = defineProps<{
+  task_time: number
+}>();
 
-const formattedTime = computed(() => {
-    let minutes = Math.floor(timeLeft.value / 60);
-    let seconds = Math.floor(timeLeft.value % 60);
-    return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+const elapsed_time = ref<number>(0);
+
+const formattedTime: ComputedRef<string> = computed(() => {
+    let time_left: number = props.task_time - elapsed_time.value;
+    time_left = time_left < 0 ? 0 : time_left;
+
+    let minutes = Math.floor(time_left / 60);
+    let seconds = Math.floor(time_left % 60);
+
+    const minute_string = minutes < 10 ? '0' + minutes : minutes;
+    const second_string = seconds < 10 ? '0' + seconds : seconds
+    return `${minute_string}:${second_string}`;
 });
 
 let intervalId = setInterval(() => {
     elapsed_time.value += 1;
-    timeLeft.value = taskTime.value * 60 - elapsed_time.value;
-    if (timeLeft.value < 0) {
-        timeLeft.value = 0;
-    }
 }, 1000);
 
 onUnmounted(() => {
@@ -31,7 +34,12 @@ onUnmounted(() => {
 
 <template>
     <div class="timer">
-        {{ formattedTime }}
+        <div>
+            {{ task_time }}
+        </div>
+        <div>
+            {{ formattedTime }}
+        </div>
     </div>
 </template>
 
